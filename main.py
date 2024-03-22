@@ -23,12 +23,15 @@ if __name__ == '__main__':
         subprocess.run(['git', 'clone', repo_url])
         subprocess.run(['pip', 'install', '--force-reinstall', packaging_dist])
         shutil.rmtree(packaging_path)
-        module = importlib.import_module("notice")
+        try:
+            from notice import fs_notice
+        except EOFError as e:
+            print(e)
         image = "img_v3_0296_533eaea3-47d1-48dc-a5e6-7e315214e05g"
         title = "通知测试"
         content = "我们的祖国是花园\n花园的花朵真鲜艳\n阳光和暖的照耀着我们\n每个的脸上的笑开颜！！！！\n"
         webhook = "d45a291c-b3b8-4058-880f-52c87da38855"
-        module.fs_notice.fs_notice(image, title, content, webhook)
+        fs_notice.fs_notice(image, title, content, webhook)
         # fs_notice(image, title, content, webhook)
         return {"code": 0, "data": "Send notice success", "msg": "success"}
 
