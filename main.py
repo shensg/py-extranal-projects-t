@@ -2,10 +2,6 @@ import shutil
 import subprocess
 import importlib
 
-repo_url = "git@github.com:shensg/packaging_notice.git"
-packaging_dist = "packaging_notice/dist/notice-0.0.1-py3-none-any.whl"
-packaging_path = "packaging_notice"
-
 if __name__ == '__main__':
     module = importlib.import_module("flask")
     app = module.Flask(__name__)
@@ -19,10 +15,7 @@ if __name__ == '__main__':
 
     @app.route('/notice', methods=['GET'])
     def notice():
-        print("clone external code")
-        subprocess.run(['git', 'clone', repo_url])
-        subprocess.run(['pip', 'install', '--force-reinstall', packaging_dist])
-        shutil.rmtree(packaging_path)
+        subprocess.run(['pip', 'install', '--force-reinstall', "https://raw.githubusercontent.com/shensg/packaging_notice/master/dist/notice-0.0.1-py3-none-any.whl"])
         try:
             from notice import send
         except EOFError as e:
